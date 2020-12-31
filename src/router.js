@@ -1,6 +1,7 @@
 const express = require("express");
 const router = new express.Router();
 const Recipe = require("./recipe");
+const bodyParser = require("body-parser");
 
 router.get("/recipes", async (req, res) => {
   try {

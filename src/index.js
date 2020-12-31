@@ -2,11 +2,13 @@ const express = require("express");
 require("./mongoose");
 const app = express();
 const cors = require("cors");
+const bodyParser = require("body-parser");
 
 const router = require("./router");
 
 app.use(cors());
-app.use(express.json());
+app.use(bodyParser.json({ limit: "50mb" }));
+// app.use(express.json());
 app.use(router);
 
 const port = 3001;
