@@ -35,8 +35,11 @@ const recipeSchema = new mongoose.Schema({
     trim: true,
     required: true,
   },
-  image: {
-    type: String,
+  cardImage: {
+    type: Buffer,
+  },
+  pageImage: {
+    type: Buffer,
   },
 });
 

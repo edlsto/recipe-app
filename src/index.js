@@ -7,8 +7,7 @@ const bodyParser = require("body-parser");
 const router = require("./router");
 
 app.use(cors());
-app.use(bodyParser.json({ limit: "50mb" }));
-// app.use(express.json());
+app.use(bodyParser.json({ limit: "5mb" }));
 app.use(router);
 
 const port = 3001;
