@@ -35,6 +35,9 @@ const recipeSchema = new mongoose.Schema({
     trim: true,
     required: true,
   },
+  image: {
+    type: Buffer,
+  },
 });
 
 const Recipe = mongoose.model("Recipe", recipeSchema);
