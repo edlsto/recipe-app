@@ -50,7 +50,7 @@ router.post("/recipes", async (req, res) => {
     .toBuffer();
 
   const pageImage = await sharp(buffer)
-    .resize({ width: 850, height: 600 })
+    .resize({ width: 1270, height: 882 })
     .jpeg()
     .toBuffer();
 
