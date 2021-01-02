@@ -42,6 +42,20 @@ router.get("/recipes/:id", async (req, res) => {
   }
 });
 
+router.delete("/recipes/:id", async (req, res) => {
+  try {
+    const recipe = await Recipe.findOneAndDelete({
+      _id: req.params.id,
+    });
+    if (!recipe) {
+      res.status(404).send();
+    }
+    res.send(recipe);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 router.post("/recipes", async (req, res) => {
   const buffer = Buffer.from(req.body.image.split(",")[1], "base64");
   const cardImage = await sharp(buffer)
@@ -89,4 +103,5 @@ router.get("/recipe/:id/pageimage", async (req, res) => {
     res.status(404).send();
   }
 });
+
 module.exports = router;
