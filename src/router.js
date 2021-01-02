@@ -7,7 +7,7 @@ router.get("/recipes", async (req, res) => {
   try {
     const recipes = await Recipe.find({});
     const newRecipes = recipes.map((recipe) => {
-      const {
+      let {
         _id,
         title,
         serves,
@@ -15,6 +15,9 @@ router.get("/recipes", async (req, res) => {
         prepTime,
         cardImage,
       } = recipe.toObject();
+      if (cardImage) {
+        cardImage = `http://localhost:3001/recipe/${_id}/cardimage`;
+      }
       return {
         _id,
         title,
@@ -53,6 +56,38 @@ router.delete("/recipes/:id", async (req, res) => {
     res.send(recipe);
   } catch (error) {
     res.status(500).send(error);
+  }
+});
+
+router.patch("/recipes/:id", async (req, res) => {
+  const updates = Object.keys(req.body);
+  const allowedUpdates = [
+    "title",
+    "ingredients",
+    "steps",
+    "title",
+    "cookTime",
+    "prepTime",
+    "serves",
+  ];
+  const isValidOperation = updates.every((update) => {
+    return allowedUpdates.includes(update);
+  });
+  if (!isValidOperation) {
+    res.status(400).send({ error: "Invalid updates" });
+  }
+  try {
+    const recipe = await Recipe.findById(req.params.id);
+    if (!recipe) {
+      res.status(404).send();
+    }
+    updates.forEach((update) => {
+      recipe[update] = req.body[update];
+    });
+    await recipe.save();
+    res.send(recipe);
+  } catch (error) {
+    res.status(500).send();
   }
 });
 
