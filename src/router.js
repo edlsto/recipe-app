@@ -92,16 +92,19 @@ router.patch("/recipes/:id", async (req, res) => {
 });
 
 router.post("/recipes", async (req, res) => {
-  const buffer = Buffer.from(req.body.image.split(",")[1], "base64");
-  const cardImage = await sharp(buffer)
-    .resize({ width: 237, height: 151 })
-    .png()
-    .toBuffer();
+  let buffer, cardImage, pageImage;
+  if (req.body.image) {
+    buffer = Buffer.from(req.body.image.split(",")[1], "base64");
+    cardImage = await sharp(buffer)
+      .resize({ width: 237, height: 151 })
+      .png()
+      .toBuffer();
 
-  const pageImage = await sharp(buffer)
-    .resize({ width: 1270, height: 882 })
-    .jpeg()
-    .toBuffer();
+    pageImage = await sharp(buffer)
+      .resize({ width: 1270, height: 882 })
+      .jpeg()
+      .toBuffer();
+  }
 
   const recipe = new Recipe({ ...req.body, cardImage, pageImage });
 
