@@ -10,7 +10,7 @@ app.use(cors());
 app.use(bodyParser.json({ limit: "5mb" }));
 app.use(router);
 
-const port = 3001;
+const port = process.env.PORT;
 
 app.listen(port, () => {
   console.log("Server is up on port " + port);
