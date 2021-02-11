@@ -17,5 +17,8 @@
     "express": "^4.17.1",
     "mongoose": "^5.11.9",
     "sharp": "^0.27.0"
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0"
   }
 }
