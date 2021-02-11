@@ -69,6 +69,7 @@ router.patch("/recipes/:id", async (req, res) => {
     "cookTime",
     "prepTime",
     "serves",
+    "image",
   ];
   const isValidOperation = updates.every((update) => {
     return allowedUpdates.includes(update);
@@ -84,6 +85,18 @@ router.patch("/recipes/:id", async (req, res) => {
     updates.forEach((update) => {
       recipe[update] = req.body[update];
     });
+    if (req.body.image) {
+      let buffer = Buffer.from(req.body.image.split(",")[1], "base64");
+      recipe.cardImage = await sharp(buffer)
+        .resize({ width: 237, height: 151 })
+        .png()
+        .toBuffer();
+
+      recipe.pageImage = await sharp(buffer)
+        .resize({ width: 1270, height: 882 })
+        .jpeg()
+        .toBuffer();
+    }
     await recipe.save();
     res.send(recipe);
   } catch (error) {
